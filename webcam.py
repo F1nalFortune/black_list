@@ -1,6 +1,7 @@
 import face_recognition
 import cv2
 import numpy as np
+import tkinter
 
 # This is a demo of running face recognition on live video from your webcam. It's a little more complicated than the
 # other example, but it includes some basic performance tweaks to make things run a lot faster:
@@ -12,7 +13,13 @@ import numpy as np
 # specific demo. If you have trouble installing it, try any of the other demos that don't require it instead.
 
 # Get a reference to webcam #0 (the default one)
-video_capture = cv2.VideoCapture(0)
+#video_capture = cv2.VideoCapture(0)
+
+
+#Reference another webcam that's plugged in
+video_capture = cv2.VideoCapture(1)
+
+
 
 # Load a sample picture and learn how to recognize it.
 brian_image = face_recognition.load_image_file("brian.png")
