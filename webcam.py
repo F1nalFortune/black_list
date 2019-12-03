@@ -1,7 +1,7 @@
 import face_recognition
 import cv2
 import numpy as np
-import tkinter
+import os
 
 # This is a demo of running face recognition on live video from your webcam. It's a little more complicated than the
 # other example, but it includes some basic performance tweaks to make things run a lot faster:
@@ -19,25 +19,35 @@ import tkinter
 #Reference another webcam that's plugged in
 video_capture = cv2.VideoCapture(1)
 
+#define directory with images
+directory_in_str = './blacklist_names/'
+directory = os.fsencode(directory_in_str)
+
+#extract names from folder
+blacklist_names = []
+for file in os.listdir(directory):
+  filename = os.fsdecode(file)
+  if filename.endswith(".png"):
+    blacklist_names.append(filename.replace(".png", ""))
+  else:
+    continue
+
+known_face_encodings = []
+known_face_names = []
+
+for name in blacklist_names:
+
+  #loop over images
+  #create face encodings
+  image = face_recognition.load_image_file(f"{directory_in_str}{name}.png")
+  face_encoding = face_recognition.face_encodings(image)[0]
+
+  #save encodings
+  #save names
+  known_face_encodings.append(face_encoding)
+  known_face_names.append(name)
 
 
-# Load a sample picture and learn how to recognize it.
-brian_image = face_recognition.load_image_file("brian.png")
-brian_face_encoding = face_recognition.face_encodings(brian_image)[0]
-
-# Load a second sample picture and learn how to recognize it.
-craig_image = face_recognition.load_image_file("craig.png")
-craig_face_encoding = face_recognition.face_encodings(craig_image)[0]
-
-# Create arrays of known face encodings and their names
-known_face_encodings = [
-    brian_face_encoding,
-    craig_face_encoding
-]
-known_face_names = [
-    "Brian Phelps",
-    "Craig Elkin"
-]
 
 # Initialize some variables
 face_locations = []
